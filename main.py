@@ -91,9 +91,28 @@ async def transcribe_and_analyze(file: UploadFile = File(...), patient_id: str =
         
         return {
             "transcription": transcription,
+            "medical_entities": summary.medical_entities,
+            "summary": summary.clinical_summary,
             "clinical_analysis": summary,
             "status": "success"
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Processing failed: {str(e)}")
+
+@app.post("/transcribe")
+async def transcribe_endpoint(request: TranscriptionRequest):
+    """
+    Endpoint for frontend compatibility - processes patient data without audio
+    """
+    try:
+        analysis = await comprehend_service.analyze_medical_text(request.text)
+        
+        return {
+            "transcription": request.text,
+            "medical_entities": analysis.get("entities", []),
+            "summary": analysis.get("summary", ""),
+            "status": "success"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
 
