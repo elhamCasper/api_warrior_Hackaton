@@ -25,7 +25,21 @@ comprehend_service = ComprehendService()
 async def index():
     return {"Status": "Ready"}
 
-@app.post("/uploadudiofile")
+@app.get("/health")
+async def health_check():
+    model_info = comprehend_service.get_model_info()
+    return {
+        "status": "healthy", 
+        "service": "medical-transcription",
+        "ai_model": model_info
+    }
+
+@app.get("/model-info")
+async def get_model_info():
+    """Get information about the AI model being used"""
+    return comprehend_service.get_model_info()
+
+@app.post("/uploadfile")
 async def create_upload_file(file: UploadFile = File(...)):
     try:
         if file.content_type not in constants.ALLOWED_AUDIO_TYPES:

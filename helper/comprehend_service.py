@@ -6,31 +6,28 @@ from model.clinical_model import MedicalEntity, Diagnosis, Medication, Procedure
 
 class ComprehendService:
     def __init__(self):
-        # Use Bedrock instead of Comprehend Medical to avoid permission issues
+        # Use Bedrock with Amazon Nova Pro instead of Comprehend Medical
         self.bedrock_client = boto3.client(
             'bedrock-runtime',
             aws_access_key_id=settings.aws_access_key_id,
             aws_secret_access_key=settings.aws_secret_access_key,
             region_name=settings.aws_default_region
         )
-        self.model_id = "anthropic.claude-3-haiku-20240307-v1:0"
+        # Using Amazon Nova Pro for medical analysis
+        self.model_id = "amazon.nova-pro-v1:0"
     
     async def analyze_medical_text(self, text: str) -> Dict[str, Any]:
-        """Analyze medical text using Amazon Bedrock (Claude 3)"""
+        """Analyze medical text using Amazon Nova Pro"""
         try:
-            prompt = f"""
-            Analyze this medical transcription and extract structured information.
+            system_prompt = """You are a medical AI assistant specialized in analyzing clinical transcriptions. 
+            Extract structured medical information and return it as valid JSON only."""
             
-            Text: "{text}"
+            user_prompt = f"""
+            Analyze this medical transcription and extract structured information:
             
-            Return a JSON response with:
-            1. Medical entities (conditions, medications, procedures, symptoms)
-            2. Diagnoses with confidence scores
-            3. Medications with details
-            4. Procedures mentioned
-            5. Clinical summary
+            "{text}"
             
-            Format as valid JSON:
+            Return ONLY valid JSON with this exact structure:
             {{
                 "entities": [
                     {{"text": "entity_text", "category": "MEDICAL_CONDITION|MEDICATION|PROCEDURE|SYMPTOM", "type": "specific_type", "confidence": 0.95, "begin_offset": 0, "end_offset": 10}}
@@ -47,17 +44,38 @@ class ComprehendService:
                 "summary": "Clinical summary text",
                 "confidence": 0.87
             }}
+            
+            Extract:
+            - Medical conditions/diagnoses mentioned
+            - Medications with dosage and frequency if available
+            - Medical procedures performed or planned
+            - Symptoms described by patient
+            - Generate a concise clinical summary
+            - Provide confidence scores (0.0-1.0) for each item
             """
 
+            # Nova Pro request format
             body = {
-                "anthropic_version": "bedrock-2023-05-31",
-                "max_tokens": 1500,
                 "messages": [
                     {
                         "role": "user",
-                        "content": prompt
+                        "content": [
+                            {
+                                "text": user_prompt
+                            }
+                        ]
                     }
-                ]
+                ],
+                "system": [
+                    {
+                        "text": system_prompt
+                    }
+                ],
+                "inferenceConfig": {
+                    "max_new_tokens": 2000,
+                    "temperature": 0.1,
+                    "top_p": 0.9
+                }
             }
 
             response = self.bedrock_client.invoke_model(
@@ -66,10 +84,10 @@ class ComprehendService:
             )
 
             response_body = json.loads(response['body'].read())
-            content = response_body['content'][0]['text']
+            content = response_body['output']['message']['content'][0]['text']
             
             try:
-                # Parse Claude's JSON response
+                # Parse Nova Pro's JSON response
                 analysis_data = json.loads(content)
                 
                 # Convert to our model format
@@ -127,7 +145,7 @@ class ComprehendService:
                 }
                 
             except json.JSONDecodeError:
-                # Fallback if Claude doesn't return valid JSON
+                # Fallback if Nova Pro doesn't return valid JSON
                 return {
                     "entities": [],
                     "diagnoses": [],
@@ -139,13 +157,30 @@ class ComprehendService:
                 }
         
         except Exception as e:
-            # Return empty results instead of failing
+            error_msg = str(e)
+            # Handle specific Nova Pro errors
+            if "ValidationException" in error_msg:
+                error_msg = "Nova Pro model validation error - check model availability in your region"
+            elif "AccessDeniedException" in error_msg:
+                error_msg = "Nova Pro access denied - check IAM permissions for bedrock:InvokeModel"
+            elif "ThrottlingException" in error_msg:
+                error_msg = "Nova Pro rate limit exceeded - please retry"
+            
             return {
                 "entities": [],
                 "diagnoses": [],
                 "medications": [],
                 "procedures": [],
-                "summary": f"Analysis unavailable: {str(e)}",
+                "summary": f"Nova Pro analysis unavailable: {error_msg}",
                 "confidence": 0.0,
                 "phi_detected": False
             }
+    
+    def get_model_info(self) -> Dict[str, str]:
+        """Get information about the current model"""
+        return {
+            "model_id": self.model_id,
+            "model_name": "Amazon Nova Pro",
+            "provider": "Amazon",
+            "capabilities": "Medical text analysis, entity extraction, clinical summarization"
+        }
