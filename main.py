@@ -51,7 +51,7 @@ async def create_upload_file(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Transcription failed: {str(e)}")
 
-@app.post("/analyze", response_model=ClinicalSummary)
+@app.post("/analyze")
 async def diagnose(request: TranscriptionRequest):
     try:
         # Extract medical entities and insights
