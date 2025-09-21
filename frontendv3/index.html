@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedTranscribe - AI-Powered Clinical Documentation Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M9 12l2 2 4-4"></path>
+                    <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"></path>
+                </svg>
+                <span class="logo-text">MedTranscribe</span>
+            </div>
+            <div class="nav-links">
+                <a href="#demo">Demo</a>
+                <a href="#technology">Technology</a>
+                <a href="#architecture">Architecture</a>
+                <button class="btn btn-primary" onclick="showLoginModal()">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">AI-Powered Clinical Documentation Assistant</h1>
+                <p class="hero-subtitle">Less Admin. More Patient Care.</p>
+                <p class="hero-description">Transform doctor-patient conversations into accurate, structured clinical notes using advanced AI. Save hours daily and let doctors focus on what matters most.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-large" onclick="scrollToDemo()">See Live Demo</button>
+                    <button class="btn btn-secondary btn-large" onclick="scrollToUpload()">Try It Now</button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-card">
+                    <div class="card-header">
+                        <div class="card-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <span class="card-title">Clinical Note Generator</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="audio-wave">
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                        </div>
+                        <p class="transcription-text">Converting speech to clinical notes...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>The Crisis of Physician Burnout</h2>
+                <p class="section-subtitle">Doctors are drowning in paperwork</p>
+            </div>
+            <div class="problem-stats">
+                <div class="stat-card">
+                    <div class="stat-number">2:1</div>
+                    <div class="stat-label">Hours of admin work for every 1 hour of patient care</div>
+                </div>
+                <div class="problem-points">
+                    <div class="problem-point">
+                        <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        <span>Leads to widespread physician burnout</span>
+                    </div>
+                    <div class="problem-point">
+                        <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12,6 12,12 16,14"></polyline>
+                        </svg>
+                        <span>Takes valuable time away from patients</span>
+                    </div>
+                    <div class="problem-point">
+                        <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                            <line x1="12" y1="9" x2="12" y2="13"></line>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        <span>Increases risk of documentation errors</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution-section">
+        <div class="container">
+            <div class="solution-content">
+                <div class="solution-text">
+                    <h2>An Intelligent Assistant that Listens & Documents</h2>
+                    <p class="solution-description">We provide a secure system that transcribes doctor-patient conversations and uses generative AI to automatically create accurate, structured clinical notes.</p>
+                    <div class="solution-benefits">
+                        <div class="benefit">
+                            <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>Saves hours of time daily</span>
+                        </div>
+                        <div class="benefit">
+                            <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>Improves documentation accuracy</span>
+                        </div>
+                        <div class="benefit">
+                            <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>Lets doctors focus on their patients</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="solution-visual">
+                    <div class="workflow-steps">
+                        <div class="workflow-step">
+                            <div class="step-icon">🎤</div>
+                            <span>Record Conversation</span>
+                        </div>
+                        <div class="workflow-arrow">→</div>
+                        <div class="workflow-step">
+                            <div class="step-icon">📝</div>
+                            <span>AI Transcription</span>
+                        </div>
+                        <div class="workflow-arrow">→</div>
+                        <div class="workflow-step">
+                            <div class="step-icon">📋</div>
+                            <span>Clinical Notes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>See It In Action</h2>
+                <p class="section-subtitle">Watch how we transform speech into clinical notes</p>
+            </div>
+            <div class="demo-container">
+                <div class="demo-placeholder">
+                    <svg class="play-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <polygon points="5,3 19,12 5,21"></polygon>
+                    </svg>
+                    <p>Demo Video Coming Soon</p>
+                    <small>Audio File → Amazon Transcribe → Raw Text → Amazon Bedrock → Structured Note</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section id="technology" class="technology-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Core Technology</h2>
+                <p class="section-subtitle">How We Turn Speech into Clinical Notes</p>
+            </div>
+            <div class="tech-workflow">
+                <div class="tech-step">
+                    <div class="tech-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                        </svg>
+                    </div>
+                    <h3>Audio File</h3>
+                    <p>Secure upload of doctor-patient conversations</p>
+                </div>
+                <div class="tech-arrow">→</div>
+                <div class="tech-step">
+                    <div class="tech-icon aws">
+                        <span>AWS</span>
+                    </div>
+                    <h3>Amazon Transcribe</h3>
+                    <p>Best-in-class speech-to-text conversion</p>
+                </div>
+                <div class="tech-arrow">→</div>
+                <div class="tech-step">
+                    <div class="tech-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14,2 14,8 20,8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>
+                    </div>
+                    <h3>Raw Text</h3>
+                    <p>Accurate transcription ready for processing</p>
+                </div>
+                <div class="tech-arrow">→</div>
+                <div class="tech-step">
+                    <div class="tech-icon aws">
+                        <span>AWS</span>
+                    </div>
+                    <h3>Amazon Bedrock</h3>
+                    <p>Advanced AI for clinical text generation</p>
+                </div>
+                <div class="tech-arrow">→</div>
+                <div class="tech-step">
+                    <div class="tech-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M9 12l2 2 4-4"></path>
+                            <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"></path>
+                        </svg>
+                    </div>
+                    <h3>Structured Note</h3>
+                    <p>Complete clinical documentation ready for review</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="architecture-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Cloud-Native Architecture</h2>
+                <p class="section-subtitle">Built for scale, security, and performance</p>
+            </div>
+            <div class="architecture-diagram">
+                <div class="arch-layer">
+                    <h4>Frontend</h4>
+                    <div class="arch-component">
+                        <span>S3 Static Site Hosting</span>
+                    </div>
+                </div>
+                <div class="arch-layer">
+                    <h4>Backend</h4>
+                    <div class="arch-component">
+                        <span>FastAPI (Python)</span>
+                    </div>
+                </div>
+                <div class="arch-layer">
+                    <h4>AI Services</h4>
+                    <div class="arch-components">
+                        <div class="arch-component">
+                            <span>Amazon Transcribe</span>
+                        </div>
+                        <div class="arch-component">
+                            <span>Amazon Bedrock</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="arch-layer">
+                    <h4>Database</h4>
+                    <div class="arch-component">
+                        <span>PostgreSQL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section id="upload" class="upload-section-main">
+        <div class="container">
+            <div class="section-header">
+                <h2>Try MedTranscribe Now</h2>
+                <p class="section-subtitle">Upload an audio file to see our AI in action</p>
+            </div>
+            
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-content">
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7,10 12,15 17,10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <h3>Drop audio files here or click to browse</h3>
+                    <p>Supports MP3, WAV, M4A files up to 10MB</p>
+                </div>
+                <input type="file" id="fileInput" accept=".mp3,.wav,.m4a" multiple hidden>
+            </div>
+
+            <div class="files-section" id="filesSection" style="display: none;">
+                <h3>Selected Files</h3>
+                <div class="files-list" id="filesList"></div>
+                <button class="btn btn-primary" id="processBtn">Generate Clinical Notes</button>
+            </div>
+
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <h3>Generated Clinical Notes</h3>
+                <div class="results-container" id="resultsContainer"></div>
+            </div>
+
+            <div class="loading" id="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Processing your audio files...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Future Vision Section -->
+    <section class="future-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>The Future of Clinical Intelligence</h2>
+                <p class="section-subtitle">What's coming next</p>
+            </div>
+            <div class="future-features">
+                <div class="future-feature">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Real-time Transcription</h3>
+                    <p>Live analysis during consultations</p>
+                </div>
+                <div class="future-feature">
+                    <div class="feature-icon">🔗</div>
+                    <h3>EHR Integration</h3>
+                    <p>Direct integration with major Electronic Health Record systems</p>
+                </div>
+                <div class="future-feature">
+                    <div class="feature-icon">📄</div>
+                    <h3>Patient Summaries</h3>
+                    <p>Automated generation of patient-friendly summaries and referral letters</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M9 12l2 2 4-4"></path>
+                        <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"></path>
+                    </svg>
+                    <span class="logo-text">MedTranscribe</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#demo">Demo</a>
+                    <a href="#technology">Technology</a>
+                    <a href="#architecture">Architecture</a>
+                    <a href="https://github.com/your-repo" target="_blank">GitHub</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MedTranscribe. Built for healthcare innovation.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="login-header">
+                <div class="logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M9 12l2 2 4-4"></path>
+                        <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"></path>
+                    </svg>
+                    <span>MedTranscribe</span>
+                </div>
+                <h2>Welcome Back</h2>
+                <p>Sign in to your clinical dashboard</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="showLogin()">Sign In</button>
+                <button class="tab-btn" onclick="showRegister()">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="doctor@hospital.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+                <p class="demo-note">Demo: Use any email/password to login</p>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form" style="display: none;">
+                <div class="form-group">
+                    <label for="regName">Full Name</label>
+                    <input type="text" id="regName" placeholder="Dr. John Smith" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input type="email" id="regEmail" placeholder="doctor@hospital.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="regSpecialty">Specialty</label>
+                    <select id="regSpecialty" required>
+                        <option value="">Select Specialty</option>
+                        <option value="cardiology">Cardiology</option>
+                        <option value="internal">Internal Medicine</option>
+                        <option value="family">Family Medicine</option>
+                        <option value="emergency">Emergency Medicine</option>
+                        <option value="pediatrics">Pediatrics</option>
+                        <option value="surgery">Surgery</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" placeholder="Create a password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                <p class="demo-note">Demo: Registration creates a mock account</p>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
