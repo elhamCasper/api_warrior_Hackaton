@@ -23,9 +23,9 @@ transcribe_service = TranscribeService()
 comprehend_service = ComprehendService()
 
 # initialize db on startup
-@app.on_event(event_type="startup")
-def startup():
-    initial_db()
+# @app.on_event(event_type="startup")
+# def startup():
+#     initial_db()
 
 @app.get("/")
 async def index():
