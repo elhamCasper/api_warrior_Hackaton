@@ -3,7 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 import helper.constant as constants
 import os
 from helper.trancribe_Service import TranscribeService
-
+from helper.comprehend_service import ComprehendService
+from model.clinical_model import ClinicalSummary, TranscriptionRequest
+import uuid
 
 app = FastAPI()
 
@@ -15,18 +17,83 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 transcribe_service = TranscribeService()
+comprehend_service = ComprehendService()
 
 @app.get("/")
 async def index():
     return {"Status": "Ready"}
 
-@app.post("/uploadfile")
+@app.post("/uploadudiofile")
 async def create_upload_file(file: UploadFile = File(...)):
+    try:
+        if file.content_type not in constants.ALLOWED_AUDIO_TYPES:
+            raise HTTPException(status_code=400, detail="Only audio files are allowed")
 
-    if file.content_type not in constants.ALLOWED_AUDIO_TYPES:
-        raise HTTPException(status_code=400, detail="Only audio files are allowed")
+        # Process transcription
+        result = await transcribe_service.transcribe_audio(file)
+        return {"transcription": result, "status": "success"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Transcription failed: {str(e)}")
 
-    # Process transcription
-    result = await transcribe_service.transcribe_audio(file)
-    return {"transcription": result, "status": "success"}
+@app.post("/analyze", response_model=ClinicalSummary)
+async def diagnose(request: TranscriptionRequest):
+    try:
+        # Extract medical entities and insights
+        analysis = await comprehend_service.analyze_medical_text(request.text)
+        
+        # Generate clinical summary
+        summary = ClinicalSummary(
+            patient_id=request.patient_id,
+            session_id=str(uuid.uuid4()),
+            original_text=request.text,
+            medical_entities=analysis.get("entities", []),
+            diagnoses=analysis.get("diagnoses", []),
+            medications=analysis.get("medications", []),
+            procedures=analysis.get("procedures", []),
+            clinical_summary=analysis.get("summary", ""),
+            confidence_score=analysis.get("confidence", 0.0)
+        )
+        return summary
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
+    
+@app.post("/transcribe_and_analyze")
+async def transcribe_and_analyze(file: UploadFile = File(...), patient_id: str = None):
+    try:
+        if file.content_type not in constants.ALLOWED_AUDIO_TYPES:
+            raise HTTPException(status_code=400, detail="Only audio files are allowed")
+        
+        # get audio
+        transcription = await transcribe_service.transcribe_audio(file)
+
+        # analyze text
+        conversation = TranscriptionRequest(
+            text=transcription,
+            patient_id=patient_id or f"patient_{uuid.uuid4().hex[:8]}"
+        )
+        
+        analysis = await comprehend_service.analyze_medical_text(conversation.text)
+        
+        # Step 3: Generate complete clinical summary
+        summary = ClinicalSummary(
+            patient_id=conversation.patient_id,
+            session_id=str(uuid.uuid4()),
+            original_text=transcription,
+            medical_entities=analysis.get("entities", []),
+            diagnoses=analysis.get("diagnoses", []),
+            medications=analysis.get("medications", []),
+            procedures=analysis.get("procedures", []),
+            clinical_summary=analysis.get("summary", ""),
+            confidence_score=analysis.get("confidence", 0.0)
+        )
+        
+        return {
+            "transcription": transcription,
+            "clinical_analysis": summary,
+            "status": "success"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Processing failed: {str(e)}")
+
