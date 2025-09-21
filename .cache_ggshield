@@ -1,1 +1,1 @@
-{"last_found_secrets": [{"match": "9be996e7a7264d84a8e6e398bd9e0253197abdcb322f7aef485ccdb01228460e", "name": "AWS Keys - d:\\Personel\\AI_Hackathon\\src\\.env"}]}
+{"last_found_secrets": [{"match": "960fa83774aaaa83a27c75064ea5bb20a462b2b7ffd4b4c83f7a7e14bcd10f95", "name": "PostgreSQL Credentials - d:\\Personel\\AI_Hackathon\\src\\database.py"}]}

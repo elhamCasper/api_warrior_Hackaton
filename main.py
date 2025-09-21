@@ -6,6 +6,7 @@ from helper.trancribe_Service import TranscribeService
 from helper.comprehend_service import ComprehendService
 from model.clinical_model import ClinicalSummary, TranscriptionRequest
 import uuid
+from database import initial_db, get_db
 
 app = FastAPI()
 
@@ -20,6 +21,11 @@ app.add_middleware(
 
 transcribe_service = TranscribeService()
 comprehend_service = ComprehendService()
+
+# initialize db on startup
+@app.on_event(event_type="startup")
+def startup():
+    initial_db()
 
 @app.get("/")
 async def index():
