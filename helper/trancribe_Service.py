@@ -16,7 +16,7 @@ class TranscribeService:
                                         ,aws_access_key_id=settings.aws_access_key_id,
                                         aws_secret_access_key=settings.aws_secret_access_key,
                                         region_name=settings.aws_default_region)
-        self.bucket_name = "warriorbox"
+        self.bucket_name = settings.s3_bucket_name
     
     async def transcribe_audio(self, audio_file: UploadFile) -> str:
         """Transcribe audio file using Amazon Transcribe"""
